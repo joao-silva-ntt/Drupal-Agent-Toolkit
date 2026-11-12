@@ -43,7 +43,7 @@ paths, commands, policies, and site details belong in each Drupal repository.
 
 ### Option 1: Install from this page
 
-1. Click **[Install Drupal Agent Toolkit in VS Code](vscode://chat-plugin/install?source=joao-silva-ntt%2FDrupal-Agent-Toolkit&plugin=drupal-agent-toolkit)**.
+1. Click **[Install Drupal Agent Toolkit in VS Code](https://vscode.dev/redirect?url=vscode%3A%2F%2Fchat-plugin%2Finstall%3Fsource%3Djoao-silva-ntt%252FDrupal-Agent-Toolkit%26plugin%3Ddrupal-agent-toolkit)**. This web link redirects to VS Code.
 2. If your browser asks whether to open Visual Studio Code, choose **Open
    Visual Studio Code**.
 3. The confirmation appears in VS Code. Review the source
