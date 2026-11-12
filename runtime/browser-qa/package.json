@@ -1,0 +1,15 @@
+{
+  "name": "drupal-agent-toolkit-browser-qa",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/config.test.cjs tests/suites.test.cjs && playwright test --config=tests/playwright.config.cjs",
+    "test:accessibility": "playwright test --project=accessibility-desktop --project=accessibility-mobile",
+    "test:performance": "playwright test --project=performance-desktop --project=performance-mobile"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.11.3",
+    "@playwright/test": "1.60.0",
+    "playwright-core": "1.60.0"
+  }
+}

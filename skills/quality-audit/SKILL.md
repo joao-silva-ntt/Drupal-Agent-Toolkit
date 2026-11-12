@@ -23,6 +23,12 @@ enable it, a maintainer must copy `runtime/.github/scripts/` from the plugin
 repository into the project's `.github/scripts/`, then review the commands
 and targets configured in the project profile.
 
+The optional `runtime/browser-qa/` package supplies project-neutral Chromium
+accessibility and performance baselines. Its README documents copying it into
+a project, explicit dependency setup, page/target approval, budgets, and profile
+commands. Do not install or run it automatically, or replace a project's richer
+existing suites with this baseline.
+
 ## Safety and scope
 
 - QA is read-only. Report recommendations; do not make fixes without explicit

@@ -82,6 +82,11 @@ project.
 
 ## Optional QA runner
 
+**Accessibility and performance browser suites are included.** Follow the
+[browser QA setup guide](runtime/browser-qa/README.md) to copy them into your
+project, install their dependencies explicitly, and configure approved pages
+and budgets. They do not run automatically when you install the plugin.
+
 Installing the plugin does not copy files into the Drupal repository. To use
 the bundled QA runner, copy the contents of `runtime/.github/scripts/` into
 the project's `.github/scripts/`, then configure and review its profile

@@ -1,0 +1,16 @@
+{
+  "baseURL": "https://example.invalid",
+  "allowedOrigins": ["https://example.invalid"],
+  "pages": [
+    { "name": "Homepage", "path": "/" }
+  ],
+  "ignoreHTTPSErrors": false,
+  "budgets": {
+    "ttfbMs": 2500,
+    "loadMs": 15000,
+    "lcpMs": 5000,
+    "cls": 0.1,
+    "firstPartyTransferKb": 4096,
+    "firstPartyRequests": 200
+  }
+}
