@@ -60,6 +60,26 @@ publisher, then confirm only if you trust the source. The link uses special
 encoding to avoid a VS Code redirect issue that can cause the plugin name to be
 read twice. If it still fails, use one of the source-install options below.
 
+### If you use WSL, Remote SSH, or a dev container
+
+Some VS Code versions have a remote-window limitation that can prevent the
+marketplace install flow from managing plugins. If you see an error saying the
+selected Copilot Agent Host session does not support plugin installation:
+
+1. Open VS Code **Settings** and search for
+   `chat.customizations.marketplace.enabled`.
+2. Turn off **Chat › Customizations: Marketplace: Enabled**. Keep
+   `chat.plugins.enabled` turned on.
+3. Open the Command Palette (`Ctrl` + `Shift` + `P` on Windows/Linux or
+   `Cmd` + `Shift` + `P` on macOS) and run **Chat: Open Customizations**.
+4. Select **Plugins** in the left-hand menu, then select the add (`+`) button
+   beside **User** or **Workspace**.
+5. Enter the repository URL below and confirm the install.
+
+This uses the Plugins install flow instead of the Marketplace preview. See the
+[VS Code remote-window issue](https://github.com/microsoft/vscode/issues/342690)
+for current status.
+
 ### Option 1: Install from the Command Palette
 
 1. Open the Command Palette (`Ctrl` + `Shift` + `P` on Windows/Linux or
