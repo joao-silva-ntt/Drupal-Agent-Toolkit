@@ -10,6 +10,16 @@ paths, commands, policies, and site details belong in each Drupal repository.
 
 - Use a current version of VS Code with GitHub Copilot Chat available, and
   sign in to Copilot.
+- Install Git, which VS Code needs to download plugins from remote repositories:
+  1. In VS Code, open **Terminal** > **New Terminal**.
+  2. Type `git --version` and press Enter. If Git is available, a version
+     number appears.
+  3. If the command is not found, install Git for your operating system:
+     - [Windows](https://git-scm.com/download/win)
+     - [macOS](https://git-scm.com/download/mac)
+     - [Linux](https://git-scm.com/download/linux)
+  4. Close all VS Code windows and reopen VS Code, then run `git --version`
+     again. Restarting lets VS Code detect the updated PATH.
 - Enable agent plugins:
   1. Open VS Code **Settings** using one of these methods:
      - Click the **Manage** gear in the lower-left corner, then click
