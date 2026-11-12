@@ -4,26 +4,12 @@ Reusable Copilot agents, skills, and scoped rules for Drupal development and
 site maintenance. This plugin contains generic Drupal guidance only; project
 paths, commands, policies, and site details belong in each Drupal repository.
 
-## Install in VS Code
+## Install the toolkit in VS Code
 
-### 1. Get ready
-
-- Use an up-to-date VS Code with GitHub Copilot Chat, signed in to Copilot.
-- Install [Git](https://github.com/git-guides/install-git#install-git) on the
-  computer running VS Code. For Windows with WSL, install Git on Windows too;
-  Git inside WSL alone is not enough for the Windows-side installer.
-- After installing Git, close every VS Code window, including any Agents
-  windows, and reopen VS Code.
-
-### 2. Enable plugins
-
-1. In VS Code, click **View** > **Command Palette**.
-2. Type **Preferences: Open Settings (UI)** and press **Enter**.
-3. Click the **Search Settings** box at the top and type
-   `chat.plugins.enabled`.
-4. Check **Chat > Plugins: Enabled**.
-
-### 3. Install the toolkit
+> [!IMPORTANT]
+> **Start here.** Install directly from the Command Palette, not from
+> **Browse customizations** or **GitHub Feed**.
+> First-time users: complete the [setup checklist](#setup-checklist) before installing.
 
 1. Click **View** > **Command Palette**.
 2. Type **Chat: Install Plugin from Source** and press **Enter**.
@@ -38,9 +24,33 @@ paths, commands, policies, and site details belong in each Drupal repository.
 5. Review the repository and trust prompt. Confirm only if you trust the
    source, then wait for installation to finish.
 
-You do not need **Browse customizations** or **GitHub Feed** for these steps.
+## Setup checklist
 
-### 4. Start using it
+<details>
+<summary>First time installing a plugin? Open this checklist.</summary>
+
+### Get ready
+
+- Use an up-to-date VS Code with GitHub Copilot Chat, signed in to Copilot.
+- Install [Git](https://github.com/git-guides/install-git#install-git) on the
+  computer running VS Code. For Windows with WSL, install Git on Windows too;
+  Git inside WSL alone is not enough for the Windows-side installer.
+- After installing Git, close every VS Code window, including any Agents
+  windows, and reopen VS Code.
+
+### Enable plugins
+
+1. In VS Code, click **View** > **Command Palette**.
+2. Type **Preferences: Open Settings (UI)** and press **Enter**.
+3. Click the **Search Settings** box at the top and type
+   `chat.plugins.enabled`.
+4. Check **Chat > Plugins: Enabled**.
+
+Then follow [Install the toolkit in VS Code](#install-the-toolkit-in-vs-code) above.
+
+</details>
+
+## Start using it
 
 1. Open your Drupal project and start a **new Copilot chat**.
 2. Select **Copilot** as the agent harness if prompted.
