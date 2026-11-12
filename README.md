@@ -41,48 +41,37 @@ paths, commands, policies, and site details belong in each Drupal repository.
   Copilot Chat extension, restart VS Code, and check again.
 - Select the **Copilot** agent harness if VS Code asks which harness to use.
 
-### Option 1: Install from this page
+> If you saw **“The plugin link must specify a plugin name”**, close that
+> prompt and use the source-install steps below. They avoid the failing
+> one-click link.
 
-1. Click **[Install Drupal Agent Toolkit in VS Code](https://vscode.dev/redirect?url=vscode%3A%2F%2Fchat-plugin%2Finstall%3Fsource%3Djoao-silva-ntt%252FDrupal-Agent-Toolkit%26plugin%3Ddrupal-agent-toolkit)**. This web link redirects to VS Code.
-2. If your browser asks whether to open Visual Studio Code, choose **Open
-   Visual Studio Code**.
-3. The confirmation appears in VS Code. Review the source
-   `joao-silva-ntt/Drupal-Agent-Toolkit` and plugin name
-   `drupal-agent-toolkit`. If VS Code shows a marketplace trust prompt, review
-   the repository before confirming. Continue through the prompts until the
-   plugin is installed.
-4. To find it afterward, open the **Chat** view, click its gear icon, choose
-   **Agent Customizations**, then **Plugins**. Look for the toolkit under
-   **Installed**.
-
-If clicking the link does not open VS Code or show an installation prompt, use
-either option below.
-
-### Option 2: Install from the Command Palette
+### Option 1: Install from the Command Palette (recommended)
 
 1. Open the Command Palette (`Ctrl` + `Shift` + `P` on Windows/Linux or
    `Cmd` + `Shift` + `P` on macOS).
-2. Run **Chat: Install Plugin from Source**.
-3. Paste this public HTTPS repository URL:
+2. Type **Chat: Install Plugin from Source** and press Enter.
+3. When VS Code asks for a source, enter this public repository URL:
 
    ```text
    https://github.com/joao-silva-ntt/Drupal-Agent-Toolkit
    ```
 
-4. Choose **User** to use it across your VS Code workspaces, or **Workspace**
-   to install it for the current project, if prompted.
-5. Review the source/trust prompt and confirm only if you trust the repository.
-6. Open **Chat** > gear icon > **Agent Customizations** > **Plugins** and
-   check that Drupal Agent Toolkit appears under **Installed**.
+4. Choose **User** to use the plugin across your VS Code workspaces, or
+   **Workspace** to install it for the current project, if prompted.
+5. Review the source/trust prompt. Confirm only if you trust the repository,
+   then continue until installation completes.
+6. To confirm it installed, open the **Chat** view, click its gear icon, choose
+   **Agent Customizations**, then **Plugins**. Find Drupal Agent Toolkit under
+   **Installed**.
 
-### Option 3: Use the Customizations editor
+### Option 2: Install from the Customizations editor
 
 1. Open the Command Palette and run **Chat: Open Customizations**.
 2. Select **Plugins** in the left-hand menu.
 3. Select the add (`+`) button beside **User** or **Workspace**.
 4. Enter the HTTPS repository URL above.
-5. Review and confirm the source/trust prompt, then continue until the plugin
-   is installed. It should then appear under **Installed** on the Plugins page.
+5. Review the source/trust prompt and continue until installation completes.
+   The plugin should then appear under **Installed** on the Plugins page.
 
 ### Check that it is available
 
