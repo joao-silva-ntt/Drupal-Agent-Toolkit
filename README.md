@@ -76,6 +76,21 @@ selected Copilot Agent Host session does not support plugin installation:
    beside **User** or **Workspace**.
 5. Enter the repository URL below and confirm the install.
 
+If the install reports `spawn git ENOENT`, check Git in the remote environment:
+
+1. In the WSL/remote VS Code window, open **Terminal** > **New Terminal** and
+   run `git --version`. Git installed on Windows alone might not be available
+   inside WSL.
+2. If Git is missing in Ubuntu or Debian WSL, run `sudo apt update`, then
+   `sudo apt install git`. For other Linux distributions, follow the
+   [Git installation guide](https://git-scm.com/download/linux).
+3. Save your work, run **WSL: Kill VS Code Server** from the Command Palette,
+   then reopen the WSL window and retry.
+
+The **GitHub Feed** is a separate curated-discovery source and is not needed to
+install this repository. Add the repository URL directly using the Plugins
+steps above.
+
 This uses the Plugins install flow instead of the Marketplace preview. See the
 [VS Code remote-window issue](https://github.com/microsoft/vscode/issues/342690)
 for current status.
