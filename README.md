@@ -14,18 +14,18 @@ paths, commands, policies, and site details belong in each Drupal repository.
   1. Open VS Code **Settings** using one of these methods:
      - Click the **Manage** gear in the lower-left corner, then click
        **Settings**.
-     - Hold `Ctrl` and press the comma key (`,`) on Windows/Linux, or hold
-       `Cmd` and press comma on macOS.
-     - Open the Command Palette (`Ctrl+Shift+P` on Windows/Linux or
-       `Cmd+Shift+P` on macOS), type **Preferences: Open Settings (UI)**, and
-       press Enter.
+     - Press `Ctrl` + `,` together on Windows/Linux, or `Cmd` + `,` together
+       on macOS.
+     - Open the Command Palette (`Ctrl` + `Shift` + `P` on Windows/Linux or
+       `Cmd` + `Shift` + `P` on macOS), type **Preferences: Open Settings (UI)**,
+       and press Enter.
   2. In the Settings page, click the **Search Settings** box at the top and
      type `chat.plugins.enabled`.
   3. Turn on **Chat › Plugins: Enabled**.
 
   If that setting is not listed, set it directly:
-  1. Open the Command Palette with `Ctrl+Shift+P` on Windows/Linux or
-     `Cmd+Shift+P` on macOS.
+  1. Open the Command Palette with `Ctrl` + `Shift` + `P` on Windows/Linux or
+     `Cmd` + `Shift` + `P` on macOS.
   2. Run **Preferences: Open User Settings (JSON)**.
   3. Add the setting inside the outer `{}`. If there are already settings,
      add a comma after the preceding entry as needed; do not replace the other
@@ -51,8 +51,8 @@ link does not open VS Code, use either option below.
 
 ### Option 2: Install from the Command Palette
 
-1. Open the Command Palette (`Ctrl+Shift+P` on Windows/Linux or
-   `Cmd+Shift+P` on macOS).
+1. Open the Command Palette (`Ctrl` + `Shift` + `P` on Windows/Linux or
+   `Cmd` + `Shift` + `P` on macOS).
 2. Run **Chat: Install Plugin from Source**.
 3. Paste this public HTTPS repository URL:
 
