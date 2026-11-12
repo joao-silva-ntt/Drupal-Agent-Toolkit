@@ -6,19 +6,73 @@ paths, commands, policies, and site details belong in each Drupal repository.
 
 ## Install in VS Code
 
-**[Install Drupal Agent Toolkit in VS Code](vscode://chat-plugin/install?source=joao-silva-ntt%2FDrupal-Agent-Toolkit&plugin=drupal-agent-toolkit)**
+### Before you start
 
-Alternatively, enable `chat.plugins.enabled`, open the Command Palette, run
-**Chat: Install Plugin from Source**, and enter:
+- Use a current version of VS Code with GitHub Copilot Chat available, and
+  sign in to Copilot.
+- Enable agent plugins. In VS Code Settings, search for `chat.plugins.enabled`
+  and turn it on. You can also add this to your `settings.json`:
 
-```text
-https://github.com/joao-silva-ntt/Drupal-Agent-Toolkit
-```
+  ```json
+  {
+    "chat.plugins.enabled": true
+  }
+  ```
 
-Review the publisher and plugin contents before confirming installation.
-Installed agents and skills are available from the Copilot customization
-pickers. Plugin skills use the `/drupal-agent-toolkit:<skill-name>` command
-prefix.
+- Select the **Copilot** agent harness if VS Code asks which harness to use.
+
+### Option 1: Install from this page
+
+Select **[Install Drupal Agent Toolkit in VS Code](vscode://chat-plugin/install?source=joao-silva-ntt%2FDrupal-Agent-Toolkit&plugin=drupal-agent-toolkit)**.
+
+VS Code opens the plugin installation flow. Review the repository and
+publisher, then confirm adding the source and installing the plugin. If the
+link does not open VS Code, use either option below.
+
+### Option 2: Install from the Command Palette
+
+1. Open the Command Palette (`Ctrl+Shift+P` on Windows/Linux or
+   `Cmd+Shift+P` on macOS).
+2. Run **Chat: Install Plugin from Source**.
+3. Paste this public HTTPS repository URL:
+
+   ```text
+   https://github.com/joao-silva-ntt/Drupal-Agent-Toolkit
+   ```
+
+4. Choose **User** to use it across your VS Code workspaces, or **Workspace**
+   to install it for the current project, if prompted.
+5. Review the source/trust prompt and confirm only if you trust the repository.
+
+### Option 3: Use the Customizations editor
+
+1. Open the Command Palette and run **Chat: Open Customizations**.
+2. Select **Plugins**.
+3. Select the add (`+`) button beside **User** or **Workspace**.
+4. Enter the HTTPS repository URL above, review the source, and install.
+
+### Check that it is available
+
+1. Start a **new Copilot chat** in the project where you want to use the
+   toolkit.
+2. Open the agent picker and select a Drupal specialist, such as **Backend
+   Developer** or **Drupal Architect**.
+3. Type `/` in the chat input to find skills. Plugin skills use the
+   `/drupal-agent-toolkit:<skill-name>` prefix; for example,
+   `/drupal-agent-toolkit:drupal-module-development`.
+4. Ask a small, read-only question first and review the response and tool
+   activity before using it for project changes.
+
+If the plugin or its agents do not appear, confirm plugins are enabled, check
+that it is installed for the intended scope and harness, then start a fresh
+chat or reload VS Code. Workspace-specific agents and skills may have the same
+name as plugin items; check the source shown in the Customizations editor.
+
+The plugin install makes the agents, skills, and rules available; it does not
+copy files into the Drupal repository. See [Project-specific setup](#project-specific-setup)
+before substantial work. Review plugin contents and publisher before
+installation. Plugins can include executable hooks or MCP servers; this
+plugin currently includes neither.
 
 ## Project-specific setup
 
