@@ -10,6 +10,8 @@ Its contents are separated by responsibility:
 - `runtime/.github/scripts/` contains an optional profile-driven QA runner
   and its isolated tests. Plugin installation does not copy these files into
   a target project.
+- `runtime/browser-qa/` contains optional Chromium/axe accessibility and
+  performance suites with configurable targets and budgets.
 - `docs/agent-project.example.json` is a safe starter profile. Replace its
   placeholders with the adopting project's actual facts before enabling QA.
 
@@ -22,9 +24,10 @@ Its contents are separated by responsibility:
 3. Configure only real project paths, supported versions, existing tools,
    explicitly approved origins, and reviewed commands. Leave unconfigured
    QA suites disabled.
-4. If the QA runner is needed, copy `runtime/.github/scripts/` into the
-   project's `.github/scripts/`. Review the scripts and every profile command
-   before use.
+4. For accessibility/performance QA, ask Accessibility Expert or Performance
+   QA to check readiness. They reuse existing tests and, with scoped approval,
+   copy missing tools, configure profiles and install dependencies/browser.
+   You do not need to perform those file/configuration steps manually.
 5. Test the plugin in a fresh Copilot session and verify its tool activity,
    output, and any command before relying on it.
 
@@ -36,6 +39,8 @@ settings, not plugin defaults.
 
 The optional runner uses standard-library Python for portable checks and can
 invoke existing accessibility/performance suites configured by a project.
+The agents can perform approved test setup before auditing; this does not
+authorize site remediation or change the runner's read-only audit behavior.
 Configuration does not prove that commands are read-only. The runner avoids
 installing dependencies or starting services, and reports blocked or
 incomplete coverage rather than treating it as success.

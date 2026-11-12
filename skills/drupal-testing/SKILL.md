@@ -23,6 +23,13 @@ Use the repository's established test base classes, groups, fixtures, and
 commands. Test normal behavior, access boundaries, validation failures,
 translation/cache cases, and edge cases that matter to the feature.
 
+For accessibility/performance requests, load the `quality-audit` skill and
+follow its readiness workflow before running. Reuse established suites. If
+setup is missing, obtain scoped approval and configure the bundled browser
+baseline yourself, including profiles and dependencies, rather than asking
+the user to do manual setup. Do not replace richer project tests or treat
+an audit request as approval to install tools.
+
 Before execution, confirm the command and target are read-only and approved.
 Execution is not a security sandbox. Distinguish application failures from
 missing browsers/libraries, credentials, or unreachable services. Report exact

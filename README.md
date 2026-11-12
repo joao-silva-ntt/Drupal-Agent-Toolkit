@@ -82,17 +82,24 @@ project.
 
 ## Optional QA runner
 
-**Accessibility and performance browser suites are included.** Follow the
-[browser QA setup guide](runtime/browser-qa/README.md) to copy them into your
-project, install their dependencies explicitly, and configure approved pages
-and budgets. They do not run automatically when you install the plugin.
+**The agents handle accessibility and performance test setup for you.**
+Select **Accessibility Expert** or **Performance QA** and ask:
+
+> Check whether this project's accessibility and performance tests are ready.
+> If setup is missing, explain what you need approval for, then set it up for
+> me and run the checks against my approved site.
+
+The agent checks existing tests first, asks for missing site details and
+approval, then configures the tools and installs approved dependencies itself.
+You do not need to copy files or edit test configuration manually. Existing
+tests are preserved, and site fixes require separate approval.
 
 Installing the plugin does not copy files into the Drupal repository. To use
-the bundled QA runner, copy the contents of `runtime/.github/scripts/` into
-the project's `.github/scripts/`, then configure and review its profile
-commands and approved targets. The example profile disables all QA suites.
-The runner does not install dependencies, start services, or make a site
-read-only; review any command before enabling it.
+the bundled suites, the agent performs the approved project setup described
+in the [browser QA guide](runtime/browser-qa/README.md). Nothing is installed
+or run merely by enabling the plugin. The example profile disables all QA
+suites; only approved suites are enabled. The runner itself does not install
+dependencies, start services, or make a site read-only.
 
 Run its isolated standard-library tests from the plugin checkout with:
 

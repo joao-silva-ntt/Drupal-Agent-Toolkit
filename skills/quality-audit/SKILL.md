@@ -1,6 +1,6 @@
 ---
 name: quality-audit
-description: 'Run and interpret profile-configured SEO, accessibility, and performance QA for an explicit Drupal target. Use for read-only audits, evidence-based reports, and regression checks.'
+description: 'Check QA readiness, set up missing accessibility/performance tests with approval, and run profile-configured audits for an explicit Drupal target.'
 argument-hint: 'Specify the approved target URL, configured suite, and report directory'
 ---
 
@@ -17,31 +17,74 @@ report location, and thresholds. If either file is missing, or the target,
 suite, or report directory is not explicit and approved, do not guess; inspect
 safely and ask for the missing information.
 
-Installing this plugin does not copy its optional runner into the project.
-If `.github/scripts/qa.py` is absent, report the runner as unavailable. To
-enable it, a maintainer must copy `runtime/.github/scripts/` from the plugin
-repository into the project's `.github/scripts/`, then review the commands
-and targets configured in the project profile.
+Installing the plugin does not copy test tools into the project. For a requested
+accessibility or performance audit, perform the readiness and setup workflow
+below instead of stopping at "tests are not configured" or asking the user to
+copy files manually. SEO-only audits do not require browser QA setup.
 
-The optional `runtime/browser-qa/` package supplies project-neutral Chromium
-accessibility and performance baselines. Its README documents copying it into
-a project, explicit dependency setup, page/target approval, budgets, and profile
-commands. Do not install or run it automatically, or replace a project's richer
-existing suites with this baseline.
+## Browser QA readiness and setup
+
+1. Inspect without changing anything: project profiles, package manifests and
+   lockfiles, existing tests/configuration, runner files, approved targets and
+   report directories. Check Node/npm/Python versions, declared dependencies,
+   and browser availability in the environment where the tests will run. Do
+   not install packages or launch tests merely to inspect readiness.
+2. Reuse an existing suitable suite and its established commands. Preserve its
+   coverage, budgets, exclusions and package manager. Do not add a duplicate
+   baseline, overwrite local changes, or enable an intentionally disabled
+   suite without approval. If only dependencies or configuration are missing,
+   propose repairing those instead of copying a second suite.
+3. If setup is needed, present one focused approval request covering the exact
+   files to add/change, dependency/browser downloads, approved site origin and
+   pages, performance budgets when applicable, and report directory. Ask only
+   for facts or permissions not already supplied. An audit request alone does
+   not authorize source/configuration changes or installations. If approval is
+   declined, leave the project unchanged and report the blocked checks.
+4. After approval, do the setup yourself. Locate this installed plugin's
+   `runtime/browser-qa/` relative to the loaded skill's plugin root (two levels
+   above this skill directory); read its README and bundled files. Copy the
+   package to the approved project location, normally `tools/browser-qa/`,
+   including its dotfile and lockfile, but not dependencies, local `qa.json`,
+   caches or reports. Do not modify the installed plugin cache. If bundled
+   files are inaccessible, report that blocker; do not silently download an
+   unreviewed replacement.
+5. Create or merge only the approved configuration: `qa.json`, minimal project
+   profiles when absent, and the requested suite's QA commands. Copy missing
+   runner files from `runtime/.github/scripts/` when needed, without replacing
+   existing files or unrelated suites. Use the profile command examples in the
+   browser QA README and project-confirmed facts. Do not invent site details.
+   Keep other suites disabled unless separately approved. Document exact
+   paths, commands, budgets and limitations in the project's profile.
+6. In the approved runtime directory and execution environment, install missing
+   declared dependencies using its lockfile (`npm ci` for the bundled package)
+   and the approved Chromium browser (`npx playwright install chromium`).
+   Reuse matching dependencies/browsers already available. Do not install
+   operating-system libraries, change privileges, start services, or bypass
+   certificate errors without separate approval. Explain any missing runtime,
+   browser or library as blocked coverage.
+7. Verify the actual configured command discovers the requested desktop/mobile
+   tests, then run it against the approved target and inspect its report.
+   Confirm nonzero executed tests, correct target, metric/budget attachments,
+   failures and skips; do not treat discovery alone as a completed audit.
+   Report missing prerequisites as blocked and site violations as failures,
+   not setup failures or permission to fix the site.
+8. Report what was configured, installed and run, exact results, report paths
+   and remaining limitations. On subsequent requests, inspect and reuse this
+   setup; do not reinstall or recopy it unnecessarily.
 
 ## Safety and scope
 
-- QA is read-only. Report recommendations; do not make fixes without explicit
-  approval.
+- Audits are read-only. The narrow exception is explicitly approved test-tool
+  setup above; it is not permission to fix the site or change editorial data.
 - Shell execution is not a security sandbox. Run only a vetted test command
   against a profile-approved target.
-- Never mutate source, site content/configuration, databases, dependencies, or
-  services. Do not install tools, start servers, perform production crawls, or
-  upload private source/content to external services without approval.
-- Creating a requested local report artifact is allowed; do not write outside
-  the approved report directory.
-- Run only suites configured for this project. A disabled or missing suite is
-  not an invitation to install tools.
+- Outside approved test setup, do not mutate source or dependencies. Do not
+  change site content/configuration or databases, start services, perform
+  production crawls, or upload private source/content without separate approval.
+- During audit execution, write requested reports only in the approved report
+  directory. Approved setup changes are limited to the agreed project files.
+- Run only configured, approved suites. Missing or disabled suites trigger a
+  readiness check and setup proposal, never an unapproved installation.
 
 ## CLI
 
@@ -65,8 +108,9 @@ tool, not a sandbox or proof of complete conformance.
 
 1. Establish target, scope, suite, test/lab environment, report directory, and
    explicit permission for any network request.
-2. Verify the suite is configured and the command is the expected runner
-   invocation; review the target and output path for correctness.
+2. For accessibility/performance, complete readiness and any approved setup
+   above. Verify the suite is configured and the command is the expected
+   runner invocation; review the target and output path for correctness.
 3. Execute once, capture its exit status and output, then inspect generated
    reports without modifying site/source state.
 4. Classify **failures**, **warnings**, **blocked checks**, and **manual

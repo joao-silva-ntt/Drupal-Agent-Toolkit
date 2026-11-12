@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "drupal-agent-toolkit",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Reusable Drupal agents, skills, rules, and optional QA helpers.",
   "homepage": "https://github.com/joao-silva-ntt/Drupal-Agent-Toolkit",
   "repository": "https://github.com/joao-silva-ntt/Drupal-Agent-Toolkit",

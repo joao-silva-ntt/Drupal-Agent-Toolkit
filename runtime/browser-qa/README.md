@@ -3,13 +3,36 @@
 These are project-neutral, anonymous browser checks. Installing the Copilot
 plugin does not install dependencies, launch a browser, or run these tests.
 
-## Set up once per project
+## Ask the agent to set it up
 
-1. Download the toolkit repository and copy this entire `runtime/browser-qa`
-   folder into your Drupal project's `tools/browser-qa` folder. Do not edit an
-   installed plugin's cached copy.
-2. Install a supported Node.js LTS release with npm. In VS Code, open
-   **Terminal > New Terminal**, go to your project's root, then run:
+In your project's Copilot chat, select **Accessibility Expert** or
+**Performance QA** and ask:
+
+> Check whether my tests are ready. If anything is missing, ask for the
+> approvals you need, set up the tests for me, and run them against my
+> approved site.
+
+The agent inspects the existing setup first and reuses suitable tests. If
+setup is needed, it asks for the site URL/pages, report location, relevant
+budgets, and permission to add test files and download dependencies/browser.
+It then performs the approved work, verifies the tests actually run, and
+reports the results. You do not need to copy files or configure tests yourself.
+Subsequent requests reuse the setup. Site fixes are not part of test setup.
+
+## Setup reference for agents
+
+Follow the quality-audit skill's readiness and approval workflow before these
+steps. Do not copy over existing tests or local configuration. Resolve the
+paths below within the adopting project, not the plugin's cached folder.
+
+1. Locate this plugin's bundled `runtime/browser-qa` folder and copy its
+   package files into the approved project location, normally
+   `tools/browser-qa`. Include `.gitignore` and the lockfile; exclude local
+   `qa.json`, dependencies, caches and reports.
+2. Verify a supported Node.js LTS release with npm is available. If absent,
+   report the prerequisite and request installation approval; do not install
+   a system runtime automatically. With dependency/browser approval, run
+   the missing setup steps in the approved environment:
 
    ```sh
    cd tools/browser-qa
@@ -17,23 +40,24 @@ plugin does not install dependencies, launch a browser, or run these tests.
    npx playwright install chromium
    ```
 
-   These commands download packages and a browser. Review and approve them
-   first. If Playwright reports missing operating-system libraries, have your
-   environment owner install the listed prerequisites before continuing.
+   These commands download packages and a browser. If Playwright reports
+   missing operating-system libraries, report the exact blocker and request
+   separate approval before changing the environment.
 3. Copy `qa.example.json` to `qa.json` in this folder.
-4. Edit `qa.json`:
+4. Configure `qa.json` using the confirmed project facts:
    - Replace both `https://example.invalid` values with your explicitly
      approved site's origin (scheme, hostname and port, without a page path).
    - Set `pages` to the public pages you want to check. Each page needs a
      unique `name` and a relative `path` starting with `/`.
-   - Review and set every performance budget. The example values are starter
-     budgets, not universal standards.
+   - Propose and obtain approval for performance budgets when performance is
+     requested. Example values are starter budgets, not universal standards.
    - Keep `ignoreHTTPSErrors` false unless you explicitly accept an untrusted
      certificate on an approved local test site.
 
-Missing configuration, unapproved targets, invalid budgets and missing browsers
-are errors, not successful tests. `qa.json` is local configuration: keep it out
-of public repositories if it contains private site details.
+Merge approved runner/profile settings using the examples below, then execute
+the requested suites. Missing configuration, unapproved targets, invalid budgets
+and missing browsers are errors, not successful tests. `qa.json` is local
+configuration: keep it out of public repositories if it contains private details.
 
 ## Run the checks
 
