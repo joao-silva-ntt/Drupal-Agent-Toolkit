@@ -41,11 +41,16 @@ paths, commands, policies, and site details belong in each Drupal repository.
   Copilot Chat extension, restart VS Code, and check again.
 - Select the **Copilot** agent harness if VS Code asks which harness to use.
 
-> If you saw **“The plugin link must specify a plugin name”**, close that
-> prompt and use the source-install steps below. They avoid the failing
-> one-click link.
+### One-click install
 
-### Option 1: Install from the Command Palette (recommended)
+[Install Drupal Agent Toolkit in VS Code](https://vscode.dev/redirect?url=vscode%3A%2F%2Fchat-plugin%2Finstall%3Fsource%3Djoao-silva-ntt%252FDrupal-Agent-Toolkit%2526plugin%253Ddrupal-agent-toolkit)
+
+VS Code should open the plugin installation flow. Review the repository and
+publisher, then confirm only if you trust the source. The link uses special
+encoding to avoid a VS Code redirect issue that can cause the plugin name to be
+read twice. If it still fails, use one of the source-install options below.
+
+### Option 1: Install from the Command Palette
 
 1. Open the Command Palette (`Ctrl` + `Shift` + `P` on Windows/Linux or
    `Cmd` + `Shift` + `P` on macOS).
