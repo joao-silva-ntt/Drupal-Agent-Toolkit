@@ -11,9 +11,16 @@ paths, commands, policies, and site details belong in each Drupal repository.
 - Use a current version of VS Code with GitHub Copilot Chat available, and
   sign in to Copilot.
 - Enable agent plugins:
-  1. In VS Code, open **Settings** with `Ctrl+,` on Windows/Linux or `Cmd+,`
-     on macOS.
-  2. Search for `chat.plugins.enabled`.
+  1. Open VS Code **Settings** using one of these methods:
+     - Click the **Manage** gear in the lower-left corner, then click
+       **Settings**.
+     - Hold `Ctrl` and press the comma key (`,`) on Windows/Linux, or hold
+       `Cmd` and press comma on macOS.
+     - Open the Command Palette (`Ctrl+Shift+P` on Windows/Linux or
+       `Cmd+Shift+P` on macOS), type **Preferences: Open Settings (UI)**, and
+       press Enter.
+  2. In the Settings page, click the **Search Settings** box at the top and
+     type `chat.plugins.enabled`.
   3. Turn on **Chat › Plugins: Enabled**.
 
   If that setting is not listed, set it directly:
