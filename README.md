@@ -43,11 +43,20 @@ paths, commands, policies, and site details belong in each Drupal repository.
 
 ### Option 1: Install from this page
 
-Select **[Install Drupal Agent Toolkit in VS Code](vscode://chat-plugin/install?source=joao-silva-ntt%2FDrupal-Agent-Toolkit&plugin=drupal-agent-toolkit)**.
+1. Click **[Install Drupal Agent Toolkit in VS Code](vscode://chat-plugin/install?source=joao-silva-ntt%2FDrupal-Agent-Toolkit&plugin=drupal-agent-toolkit)**.
+2. If your browser asks whether to open Visual Studio Code, choose **Open
+   Visual Studio Code**.
+3. The confirmation appears in VS Code. Review the source
+   `joao-silva-ntt/Drupal-Agent-Toolkit` and plugin name
+   `drupal-agent-toolkit`. If VS Code shows a marketplace trust prompt, review
+   the repository before confirming. Continue through the prompts until the
+   plugin is installed.
+4. To find it afterward, open the **Chat** view, click its gear icon, choose
+   **Agent Customizations**, then **Plugins**. Look for the toolkit under
+   **Installed**.
 
-VS Code opens the plugin installation flow. Review the repository and
-publisher, then confirm adding the source and installing the plugin. If the
-link does not open VS Code, use either option below.
+If clicking the link does not open VS Code or show an installation prompt, use
+either option below.
 
 ### Option 2: Install from the Command Palette
 
@@ -63,13 +72,17 @@ link does not open VS Code, use either option below.
 4. Choose **User** to use it across your VS Code workspaces, or **Workspace**
    to install it for the current project, if prompted.
 5. Review the source/trust prompt and confirm only if you trust the repository.
+6. Open **Chat** > gear icon > **Agent Customizations** > **Plugins** and
+   check that Drupal Agent Toolkit appears under **Installed**.
 
 ### Option 3: Use the Customizations editor
 
 1. Open the Command Palette and run **Chat: Open Customizations**.
-2. Select **Plugins**.
+2. Select **Plugins** in the left-hand menu.
 3. Select the add (`+`) button beside **User** or **Workspace**.
-4. Enter the HTTPS repository URL above, review the source, and install.
+4. Enter the HTTPS repository URL above.
+5. Review and confirm the source/trust prompt, then continue until the plugin
+   is installed. It should then appear under **Installed** on the Plugins page.
 
 ### Check that it is available
 
