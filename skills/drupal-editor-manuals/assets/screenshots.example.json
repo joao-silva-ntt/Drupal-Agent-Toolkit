@@ -1,0 +1,30 @@
+{
+  "outputDir": "images",
+  "locale": "en",
+  "viewport": { "width": 1440, "height": 900 },
+  "deviceScaleFactor": 1,
+  "shots": [
+    {
+      "id": "content-overview",
+      "path": "/admin/content",
+      "selector": "main",
+      "mask": [".views-field-name", ".views-field-uid"]
+    },
+    {
+      "id": "content-add-form",
+      "path": "/node/add/example",
+      "fullPage": false,
+      "hide": [".messages--status"]
+    },
+    {
+      "id": "page-add-component",
+      "path": "/node/add/example-page",
+      "allowAjax": true,
+      "actions": [
+        { "type": "click", "selector": ".lpb-btn--add", "waitMs": 800 },
+        { "type": "waitFor", "selector": ".ui-dialog" }
+      ],
+      "selector": ".ui-dialog"
+    }
+  ]
+}

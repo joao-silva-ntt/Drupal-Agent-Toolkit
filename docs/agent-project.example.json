@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "project": "REPLACE_WITH_PROJECT_NAME",
+  "paths": {},
+  "project_rules": [],
+  "qa": {
+    "allowed_origins": [],
+    "timeout_seconds": 900,
+    "exclusions": [],
+    "seo": {
+      "enabled": false,
+      "sitemap": "/sitemap.xml",
+      "max_pages": 300,
+      "max_sitemaps": 10,
+      "workers": 3,
+      "pages": [],
+      "commands": []
+    },
+    "accessibility": {
+      "enabled": false,
+      "env_files": [],
+      "commands": [],
+      "limitations": ["Configure an existing anonymous read-only test suite; automated checks do not prove full conformance."]
+    },
+    "performance": {
+      "enabled": false,
+      "env_files": [],
+      "commands": [],
+      "limitations": ["Configure an existing lab suite and document its budgets, exclusions and environment; do not claim field metrics."]
+    }
+  }
+}
