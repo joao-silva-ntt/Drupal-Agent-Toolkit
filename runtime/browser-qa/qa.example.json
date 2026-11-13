@@ -5,6 +5,8 @@
     { "name": "Homepage", "path": "/" }
   ],
   "ignoreHTTPSErrors": false,
+  "accessibility": { "browsers": ["chromium"] },
+  "performance": { "samples": 3, "observationMs": 2000 },
   "budgets": {
     "ttfbMs": 2500,
     "loadMs": 15000,

@@ -120,6 +120,18 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
   -s runtime/.github/scripts/tests -v
 ```
 
+## Toolkit validation
+
+The QA agents include a read-only setup diagnostic, independent suite setup,
+optional Firefox/WebKit accessibility checks, keyboard/layout checks and
+repeated-sample performance budgets. Runs preserve separate JSON/HTML reports.
+See [browser QA](runtime/browser-qa/README.md) for details.
+
+Pull requests and pushes run metadata/portability/link checks, QA-runner tests,
+and isolated browser fixtures after a clean dependency install on Linux and
+Windows. Browser checks cover Chromium plus optional Firefox/WebKit in CI.
+They do not audit a project site or establish accessibility conformance.
+
 ## Safety and scope
 
 - Agents and skills provide guidance; they do not prove compliance or replace

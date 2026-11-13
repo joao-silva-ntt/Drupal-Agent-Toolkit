@@ -106,19 +106,24 @@ when Drupal's child render arrays already provide it, and do not use arbitrary
 finite max-age values as a substitute for correct invalidation.
 
 ```php
-return [
-  '#markup' => $content,
-  '#cache' => [
-    'tags' => ['node:' . $node->id()],
-    'contexts' => ['user', 'url.path'],
-    'max-age' => 3600,
-  ],
-];
+$access = $node->access('view', $this->currentUser(), TRUE);
+$build = $access->isAllowed()
+  ? $this->entityTypeManager()->getViewBuilder('node')->view($node)
+  : [];
+\Drupal\Core\Cache\CacheableMetadata::createFromRenderArray($build)
+  ->addCacheableDependency($node)
+  ->addCacheableDependency($access)
+  ->applyTo($build);
+return $build;
 ```
+
+This controller example preserves entity and access-result cache metadata,
+including on denied output. It does not invent a cache lifetime.
 
 ### 5. Check entity access before operations
 
-Always verify access before loading, displaying, or modifying entities.
+Check the requested operation's access before displaying or modifying an
+entity. Loading an entity is not itself an access check.
 
 ```php
 if ($node->access('view', $this->currentUser)) {
@@ -251,7 +256,6 @@ services:
     arguments:
       - '@entity_type.manager'
       - '@current_user'
-      - '@logger.factory'
 
   my_module.event_subscriber:
     class: Drupal\my_module\EventSubscriber\MyModuleSubscriber
@@ -276,9 +280,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ExampleController extends ControllerBase {
 
-  public function __construct(
-    protected EntityTypeManagerInterface $entityTypeManager,
-  ) {}
+  public function __construct(EntityTypeManagerInterface $entityTypeManager) {
+    $this->entityTypeManager = $entityTypeManager;
+  }
 
   public static function create(ContainerInterface $container) {
     return new static(
@@ -289,11 +293,6 @@ class ExampleController extends ControllerBase {
   public function content() {
     return [
       '#markup' => $this->t('Hello from My Module!'),
-      '#cache' => [
-        'contexts' => ['user'],
-        'tags' => ['my_module:example'],
-        'max-age' => 3600,
-      ],
     ];
   }
 }
@@ -322,10 +321,10 @@ class SettingsForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('my_module.settings');
 
-    $form['api_key'] = [
+    $form['display_label'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('API Key'),
-      '#default_value' => $config->get('api_key'),
+      '#title' => $this->t('Display label'),
+      '#default_value' => $config->get('display_label'),
       '#required' => TRUE,
     ];
 
@@ -334,7 +333,7 @@ class SettingsForm extends ConfigFormBase {
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->config('my_module.settings')
-      ->set('api_key', $form_state->getValue('api_key'))
+      ->set('display_label', $form_state->getValue('display_label'))
       ->save();
 
     parent::submitForm($form, $form_state);
@@ -351,36 +350,32 @@ namespace Drupal\my_module\Service;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
-use Psr\Log\LoggerInterface;
 
 class ExampleService {
 
   public function __construct(
     protected EntityTypeManagerInterface $entityTypeManager,
     protected AccountProxyInterface $currentUser,
-    protected LoggerInterface $logger,
   ) {}
 
   public function doSomething(int $node_id): array {
-    try {
-      $node = $this->entityTypeManager->getStorage('node')->load($node_id);
-
-      if (!$node || !$node->access('view', $this->currentUser)) {
-        return ['success' => FALSE, 'error' => 'Access denied or not found'];
-      }
-
-      return [
-        'success' => TRUE,
-        'data' => $node->getTitle(),
-      ];
+    $node = $this->entityTypeManager->getStorage('node')->load($node_id);
+    if (!$node || !$node->access('view', $this->currentUser)) {
+      return ['success' => FALSE, 'error' => 'Access denied or not found'];
     }
-    catch (\Exception $e) {
-      $this->logger->error('Error: @message', ['@message' => $e->getMessage()]);
-      return ['success' => FALSE, 'error' => 'An error occurred'];
-    }
+
+    return [
+      'success' => TRUE,
+      'data' => $node->getTitle(),
+    ];
   }
 }
 ```
+
+Unexpected storage failures propagate to the caller's established exception
+handling instead of becoming success-shaped or generic fallback data. This
+service result is not a render array; render consumers must separately bubble
+entity and access metadata as shown above.
 
 ### Block Plugin
 
@@ -426,11 +421,6 @@ class CustomBlock extends BlockBase implements ContainerFactoryPluginInterface {
   public function build() {
     return [
       '#markup' => $this->t('Block content'),
-      '#cache' => [
-        'tags' => ['my_module:custom_block'],
-        'contexts' => ['user'],
-        'max-age' => 3600,
-      ],
     ];
   }
 }

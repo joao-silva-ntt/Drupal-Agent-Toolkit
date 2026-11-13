@@ -1,0 +1,34 @@
+name: Validate toolkit
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  validate:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: runtime/browser-qa/package-lock.json
+      - run: python3 scripts/validate_toolkit.py
+      - run: python3 -m unittest discover -s scripts/tests -v
+      - run: python3 -m unittest discover -s runtime/.github/scripts/tests -v
+      - run: npm ci
+        working-directory: runtime/browser-qa
+      - run: npx playwright install --with-deps chromium firefox webkit
+        working-directory: runtime/browser-qa
+      - run: npm test
+        working-directory: runtime/browser-qa
+        env:
+          QA_TEST_CROSS_BROWSER: '1'

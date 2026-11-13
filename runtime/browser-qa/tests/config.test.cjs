@@ -35,3 +35,20 @@ test('rejects missing and invalid budgets instead of silently using defaults', (
     assert.throws(() => validateConfig(data), /lcpMs/);
   }
 });
+
+test('accessibility-only configuration does not require performance budgets', () => {
+  const data = config();
+  delete data.budgets;
+  data.performance = { samples: 2 };
+  assert.equal(validateConfig(data, undefined, 'accessibility').baseURL, data.baseURL);
+  assert.throws(() => validateConfig(data, undefined, 'performance'), /budgets/);
+});
+
+test('validates sampling, browser selection and keyboard configuration', () => {
+  assert.throws(() => validateConfig({ ...config(), performance: { samples: 2 } }), /odd samples/);
+  assert.throws(() => validateConfig({ ...config(), accessibility: { browsers: ['unknown'] } }), /browsers/);
+  assert.equal(validateConfig({
+    ...config(), accessibility: { browsers: ['unknown'] },
+  }, undefined, 'performance').performance.samples, 3);
+  assert.throws(() => validateConfig({ ...config(), pages: [{ name: 'Home', path: '/', keyboard: [{ tabs: 0 }] }] }), /keyboard/);
+});

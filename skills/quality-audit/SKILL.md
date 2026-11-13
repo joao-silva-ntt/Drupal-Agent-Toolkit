@@ -30,10 +30,20 @@ Before the first task in a project, every toolkit agent must perform a brief,
 read-only test-readiness check, even when the task is not an audit. Inspect the
 project profiles and existing test manifests/configuration for accessibility
 and performance coverage. Report each suite as configured, missing, disabled,
-or not verified; file presence alone does not establish that tests can run.
+blocked or not verified; file presence alone does not establish that tests can run.
 Check available dependency/browser evidence without installing, launching
 browsers, contacting the site, or running the suites. If the agent lacks
 execution tools, mark runtime availability unverified rather than guessing.
+
+When Node.js and execution tools are available, use the bundled read-only
+diagnostic for consistent evidence:
+`node PATH_TO_PLUGIN/runtime/browser-qa/diagnose.cjs --project PROJECT_ROOT`.
+Resolve both paths from the actual installation/workspace. It does not execute
+profile commands or make network requests. Exit 2 means attention is needed,
+not an audit failure. It inspects profile-configured package directories and
+the default `tools/browser-qa`; for custom suites it reports unverified evidence
+for the agent to inspect, not permission to replace them. A "configured" result
+does not prove browser OS libraries work or that any tests passed.
 
 Reuse a recent readiness record in `docs/AGENT_PROJECT.md` when its evidence
 still matches. With explicit permission to update that file, record a compact
@@ -106,6 +116,14 @@ they must not use shell writes to bypass those boundaries.
    failures and skips; do not treat discovery alone as a completed audit.
    Report missing prerequisites as blocked and site violations as failures,
    not setup failures or permission to fix the site.
+   Use `node run.cjs accessibility` or `node run.cjs performance` for the
+   bundled package, with runner/report arguments as documented in its README.
+   Accessibility-only runs do not require performance budgets. Configure
+   project-confirmed `readySelector` and optional keyboard destinations;
+   never invent selectors or perform arbitrary clicks/form submissions.
+   Optional Firefox/WebKit downloads require approval. Performance uses
+   repeated fresh-context samples and median budgets; report observation
+   duration, raw samples, opaque transfer limitations and browser coverage.
 8. Report what was configured, installed and run, exact results, report paths
    and remaining limitations. On subsequent requests, inspect and reuse this
    setup; do not reinstall or recopy it unnecessarily.

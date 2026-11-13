@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-const { auditAccessibility, preparePerformance, auditPerformance, openPage } = require('../audits.cjs');
+const { auditAccessibility, auditLayoutAndKeyboard, preparePerformance, auditPerformance, openPage, reportPerformance } = require('../audits.cjs');
 
 const html = '<!doctype html><html lang="en"><head><title>Fixture page</title></head><body><main><h1>Fixture heading</h1><p>Public content for browser QA.</p></main></body></html>';
 const config = {
@@ -39,4 +39,40 @@ test('performance records metrics, enforces budgets and rejects missing LCP', as
 test('a navigation ending outside the target fails explicitly', async ({ page }) => {
   await page.route('**/*', (route) => route.fulfill({ contentType: 'text/html', body: html }));
   await expect(openPage(page, config, { path: 'http://unapproved.test/' })).rejects.toThrow(/redirected outside/);
+});
+
+test('keyboard destinations and narrow layout expose regressions', async ({ page, browser }, testInfo) => {
+  await page.setContent(html.replace('</main>', '<button id="action">Read more</button></main>'));
+  await auditLayoutAndKeyboard(page, testInfo, { keyboard: [{ selector: '#action', tabs: 1 }] });
+  await page.setContent(html.replace('</main>', '<button id="action" tabindex="-1">Read more</button></main>'));
+  await expect(auditLayoutAndKeyboard(page, testInfo, {
+    keyboard: [{ selector: '#action', tabs: 1 }],
+  })).rejects.toThrow(/focus/);
+  await page.setContent(html.replace('<main>', '<main style="width: 900px">'));
+  await expect(auditLayoutAndKeyboard(page, testInfo, {})).rejects.toThrow(/overflow/);
+  const context = await browser.newContext({ isMobile: true, viewport: { width: 320, height: 900 } });
+  try {
+    const mobile = await context.newPage();
+    await mobile.setContent(html);
+    await expect(auditLayoutAndKeyboard(mobile, testInfo, {})).rejects.toThrow(/layout viewport/);
+  } finally {
+    await context.close();
+  }
+});
+
+test('performance budgets use medians but missing samples never pass', async ({ page }) => {
+  await page.setContent(html);
+  const captured = [];
+  const info = { project: { name: 'fixture' }, attach: async (name, data) => captured.push(JSON.parse(data.body)) };
+  const sample = {
+    ttfbMs: 1, loadMs: 10, lcpMs: 10, cls: 0, firstPartyTransferKb: 1,
+    firstPartyRequests: 1, totalRequests: 2, observableTotalTransferKb: 1, opaqueCrossOriginResources: 1,
+  };
+  await reportPerformance(page, info, config, [sample, { ...sample, lcpMs: 99999 }, sample]);
+  expect(captured[0].metrics.lcpMs).toBe(10);
+  expect(captured[0].samples).toHaveLength(3);
+  await expect(reportPerformance(page, info, config, [sample, { ...sample, lcpMs: 0 }, sample]))
+    .rejects.toThrow(/LCP must be observed/);
+  await expect(reportPerformance(page, info, config, [sample, { ...sample, ttfbMs: -1 }, sample]))
+    .rejects.toThrow(/ttfbMs must be a finite/);
 });

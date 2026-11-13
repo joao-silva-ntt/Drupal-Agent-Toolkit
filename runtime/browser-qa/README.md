@@ -51,6 +51,7 @@ paths below within the adopting project, not the plugin's cached folder.
      unique `name` and a relative `path` starting with `/`.
    - Propose and obtain approval for performance budgets when performance is
      requested. Example values are starter budgets, not universal standards.
+     Accessibility-only runs may omit `budgets`.
    - Keep `ignoreHTTPSErrors` false unless you explicitly accept an untrusted
      certificate on an approved local test site.
 
@@ -58,6 +59,57 @@ Merge approved runner/profile settings using the examples below, then execute
 the requested suites. Missing configuration, unapproved targets, invalid budgets
 and missing browsers are errors, not successful tests. `qa.json` is local
 configuration: keep it out of public repositories if it contains private details.
+
+### Read-only setup diagnostic
+
+The agent should run the bundled diagnostic before proposing changes:
+
+```sh
+node diagnose.cjs --project PATH_TO_PROJECT
+```
+
+It reads the project profile and checks configured test-package directories
+(or `tools/browser-qa` when none are registered). For the bundled suite it
+checks configuration, pinned dependency versions and browser executable files.
+Custom test packages are reported for agent inspection, not overwritten.
+JSON output includes the current Node/OS/WSL environment, findings and next
+actions. Exit code 2 means missing, disabled, blocked or unverified setup.
+It does not execute project commands, launch browsers, contact sites, write
+files or install anything. OS libraries and actual test execution remain
+unverified even when files are present.
+
+### Page readiness and keyboard checks
+
+For dynamic pages, add a confirmed visible `readySelector` to the page entry.
+The suite waits for the load event, that selector (when configured), and fonts.
+Add optional keyboard destinations to check navigation from the initial page
+focus without clicking or submitting forms:
+
+```json
+{
+  "name": "Homepage",
+  "path": "/",
+  "readySelector": "main",
+  "keyboard": [
+    { "tabs": 1, "selector": "a.skip-link" }
+  ]
+}
+```
+
+Each `tabs` count is the number of Tab presses since the previous step.
+Use real project selectors, not this example verbatim. Destinations must
+receive focus and be in the viewport. Focus screenshots require manual review
+for visibility, clipping and obstruction; computed CSS alone cannot prove
+usable focus. Pages without `keyboard` steps have no keyboard-flow coverage.
+These checks help identify navigation barriers for keyboard-only users.
+
+### Optional browser coverage
+
+Set `accessibility.browsers` to `["chromium", "firefox", "webkit"]` for desktop
+cross-browser axe, keyboard and layout checks. Chromium also includes a mobile
+project; performance remains Chromium-only. After approval, install the chosen
+browsers with `npx playwright install chromium firefox webkit`. Missing
+executables or libraries are blocked coverage, not skipped successes.
 
 ## Run the checks
 
@@ -68,17 +120,20 @@ npm run test:accessibility
 npm run test:performance
 ```
 
-Both commands check each configured page in desktop and mobile Chromium.
+By default both commands check each page in desktop and mobile Chromium.
 They do not start your site. The approved target must already be running.
-Results appear in the terminal and `playwright-report/`. Open the report with:
+Each command prints a unique `reports-accessibility-*` or
+`reports-performance-*` directory containing JSON results, HTML and attachments.
+Open that run's report with:
 
 ```sh
-npx playwright show-report
+npx playwright show-report PATH_TO_RUN_DIRECTORY/html
 ```
 
-These direct commands replace the previous browser report, so save it before
-running another suite if you need both. The optional QA runner below keeps
-separate accessibility and performance report directories.
+Runs do not overwrite earlier reports. `QA_REPORT_ROOT` may point to an existing
+approved report directory outside the project. The optional QA runner below
+also keeps separate suite output directories and its own JSON summary; the
+launcher places reports alongside its requested JSON output, not in source.
 
 Each accessibility test attaches `axe-results.json`, including violations and
 checks needing manual review. Each performance test attaches
@@ -89,11 +144,18 @@ can contain page content and URLs; review them before sharing.
 ## What is measured
 
 - **Accessibility:** axe's supported WCAG 2 A/AA, 2.1 A/AA and 2.2 AA rules,
-  plus non-empty page language and title checks.
+  plus non-empty page language/title, 320px horizontal overflow checks and
+  optional project-defined keyboard destinations with focus screenshots.
+  Overflow is a review signal; exceptions for two-dimensional content require
+  manual judgement, not an automatic declaration of WCAG failure.
 - **Performance:** TTFB, load event timing, observed LCP, CLS using layout-shift
   session windows, first-party transfer KB and first-party request count.
-  Layout shifts and LCP are observed through two seconds after page load.
-  Missing LCP fails instead of passing as zero.
+  Each page uses three fresh browser contexts by default; budgets are applied
+  to per-metric medians, with every raw sample preserved. `performance.samples`
+  accepts odd counts from 3 to 9. `performance.observationMs` sets the
+  post-readiness window (default 2000ms, range 100-30000ms).
+  Missing LCP in any sample fails instead of passing as zero. The observation
+  window is a lab sampling limit, not a full page-lifetime LCP/CLS measurement.
 
 The browser uses a fresh anonymous context for each test, with service workers
 blocked. It does not submit forms or log in. Existing site scripts still run:
@@ -103,17 +165,19 @@ allowlist checks the selected target; it is **not a network sandbox**. A final
 navigation outside that origin fails, but may already have contacted the
 redirect destination.
 
-No videos, embeds or resources are intentionally excluded. Transfer and request
-budgets cover only the target's origin, not whole-page or third-party weight;
-resource timing can be affected by browser caches. Mobile emulation does not
-simulate a slow network or CPU. These are single-sample lab checks, not
+No videos, embeds or resources are intentionally excluded. Budgets cover
+first-party traffic. Reports additionally include total request counts and
+observable total transfer, plus counts of cross-origin resources with opaque
+zero transfer size. Opaque bytes cannot be reconstructed, so observable transfer
+is not full-page weight. Browser caches may also affect timing/transfer values.
+Mobile emulation does not simulate a slow network or CPU. These are lab checks, not
 production field Core Web Vitals, INP or Lighthouse scores. Use controlled,
 repeated measurements for performance decisions.
 
 Passing axe does not prove WCAG conformance. Manual keyboard, screen-reader,
 focus, zoom/reflow, text-spacing, content and interaction checks remain
-necessary. Project-specific component regression tests, IBM Equal Access,
-Firefox and WebKit coverage are not included in this portable baseline.
+necessary. Project-specific component regression tests and IBM Equal Access
+are not included. Firefox/WebKit coverage is opt-in.
 
 ## Connect to the optional QA runner
 
@@ -129,7 +193,7 @@ other suites or approved targets.
     "enabled": true,
     "commands": [{
       "cwd": "tools/browser-qa",
-      "argv": ["node", "node_modules/@playwright/test/cli.js", "test", "--project=accessibility-desktop", "--project=accessibility-mobile", "--reporter=json", "--output={output_dir}/test-results"],
+      "argv": ["node", "run.cjs", "accessibility", "--output={output_dir}/test-results"],
       "report_format": "playwright-json"
     }],
     "limitations": ["Automated Chromium/axe baseline only; manual accessibility testing remains necessary."]
@@ -138,10 +202,10 @@ other suites or approved targets.
     "enabled": true,
     "commands": [{
       "cwd": "tools/browser-qa",
-      "argv": ["node", "node_modules/@playwright/test/cli.js", "test", "--project=performance-desktop", "--project=performance-mobile", "--reporter=json", "--output={output_dir}/test-results"],
+      "argv": ["node", "run.cjs", "performance", "--output={output_dir}/test-results"],
       "report_format": "playwright-json"
     }],
-    "limitations": ["Single-sample desktop/mobile Chromium lab; first-party transfer scope; two-second post-load observation; no field INP."]
+    "limitations": ["Repeated desktop/mobile Chromium lab; median budgets; first-party budget scope; configured observation window; no field INP."]
   }
 }
 ```
@@ -158,4 +222,6 @@ It validates configuration, exercises audit helpers against intercepted browser
 fixtures (including deliberately failing cases), and runs all four real suite
 entry points against a temporary loopback HTTP fixture. The fixture server is
 closed and its temporary reports removed when the check ends. It does not audit
-a Drupal site.
+a Drupal site. Set `QA_TEST_CROSS_BROWSER=1` to exercise optional Firefox/WebKit
+fixtures after their browsers are installed. GitHub Actions performs clean
+lockfile installation, packaging checks and these tests on Linux and Windows.
