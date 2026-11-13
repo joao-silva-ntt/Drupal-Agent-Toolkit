@@ -107,7 +107,7 @@ class TargetSafetyTest(unittest.TestCase):
                     qa.load_profile(path, value)
 
     def test_conflicting_environment_blocks_without_disclosing_value(self):
-        with tempfile.TemporaryDirectory() as directory, patch.object(qa, "ROOT", Path(directory)):
+        with tempfile.TemporaryDirectory() as directory, patch.object(qa, "ROOT", Path(directory).resolve()):
             (Path(directory) / ".env").write_text('PASSWORD=do-not-log\nBASE_URL="https://other.test"\n')
             with self.assertRaisesRegex(ValueError, "different target") as error:
                 qa.check_environment({"env_files": [".env"]}, BASE)
