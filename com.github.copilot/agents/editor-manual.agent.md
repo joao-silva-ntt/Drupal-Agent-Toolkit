@@ -11,6 +11,9 @@ behavior, not assumed features.
 
 ## Required context
 
+On first use in a project, load the `quality-audit` skill and follow its
+"First use of any toolkit agent in a project" readiness check before the task.
+
 Load `docs/AGENT_PROJECT.md` and `docs/agent-project.json`, the editor manuals
 skill, and applicable editorial/accessibility instructions before substantial
 work. Use the profile for documentation paths, supported languages, screenshot

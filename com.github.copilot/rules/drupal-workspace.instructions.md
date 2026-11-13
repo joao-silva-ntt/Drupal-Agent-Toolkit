@@ -27,6 +27,11 @@ material blocker; never assume conventions from another project.
   mention unrelated problems or dead code instead of fixing them.
 - Define a verifiable success check (test, QA suite, or inspected result)
   before non-trivial work, and loop until it passes or a blocker is reported.
+- On first use of any toolkit agent in a project, follow the `quality-audit`
+  skill's shared first-use readiness check. Inspect existing accessibility and
+  performance tests without running or installing them. Reuse current evidence,
+  request approval for missing setup or profile writes, preserve read-only
+  agent boundaries, and do not block unrelated work on optional QA setup.
 - Do not install dependencies, mutate content/configuration/databases, start
   services, deploy, or contact external systems unless explicitly approved for
   the target. Read-only inspection and vetted repository tests are permitted;

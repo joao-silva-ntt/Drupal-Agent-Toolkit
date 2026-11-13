@@ -11,6 +11,11 @@ code and operational burden. Do not implement unless asked.
 
 ## Required context
 
+On first use in a project, load the `quality-audit` skill and follow its
+"First use of any toolkit agent in a project" readiness check before the task.
+Use file inspection only; mark runtime checks unverified and refer approved
+setup and profile writes to Accessibility Expert or Performance QA.
+
 Before substantial work, load `docs/AGENT_PROJECT.md` and
 `docs/agent-project.json`. Treat them as the source for project architecture,
 paths, commands, integrations, and requirements. If absent, discover safely

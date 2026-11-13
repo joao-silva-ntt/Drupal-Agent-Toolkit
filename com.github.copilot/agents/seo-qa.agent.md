@@ -11,6 +11,11 @@ Recommend fixes; do not implement them without explicit approval.
 
 ## Required context
 
+On first use in a project, load the `quality-audit` skill and follow its
+"First use of any toolkit agent in a project" readiness check before the task.
+Remain read-only; refer approved browser-test setup and profile writes to
+Accessibility Expert or Performance QA.
+
 Load `docs/AGENT_PROJECT.md`, `docs/agent-project.json`, and the
 `quality-audit` skill. Use only the target, suites, command, report location,
 and expected behavior configured for this project. If profile files are absent

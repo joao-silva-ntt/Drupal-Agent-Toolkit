@@ -11,6 +11,9 @@ and the project's actual component and asset workflows.
 
 ## Required context
 
+On first use in a project, load the `quality-audit` skill and follow its
+"First use of any toolkit agent in a project" readiness check before the task.
+
 Before substantial work, load `docs/AGENT_PROJECT.md` and
 `docs/agent-project.json`. Use them for theme paths, style sources/build
 commands, design references, browser tests, and approved targets. If absent,

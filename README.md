@@ -82,6 +82,18 @@ project.
 
 ## Optional QA runner
 
+**Every toolkit agent checks test readiness on first use in a project.**
+It inspects existing accessibility and performance tests without installing
+anything or running an audit. Missing setup is explained and requires your
+approval. Read-only/planning agents direct setup to Accessibility Expert or
+Performance QA.
+
+With permission, readiness evidence is saved in `docs/AGENT_PROJECT.md` for
+other agents to reuse. Relevant file or environment changes trigger a recheck;
+a teammate's record does not verify your machine's installed tools. Optional
+test setup does not block unrelated work. This is an agent instruction, not
+an automatic VS Code startup hook.
+
 **The agents handle accessibility and performance test setup for you.**
 Select **Accessibility Expert** or **Performance QA** and ask:
 

@@ -24,6 +24,44 @@ copy files manually. SEO-only audits do not require browser QA setup.
 
 ## Browser QA readiness and setup
 
+### First use of any toolkit agent in a project
+
+Before the first task in a project, every toolkit agent must perform a brief,
+read-only test-readiness check, even when the task is not an audit. Inspect the
+project profiles and existing test manifests/configuration for accessibility
+and performance coverage. Report each suite as configured, missing, disabled,
+or not verified; file presence alone does not establish that tests can run.
+Check available dependency/browser evidence without installing, launching
+browsers, contacting the site, or running the suites. If the agent lacks
+execution tools, mark runtime availability unverified rather than guessing.
+
+Reuse a recent readiness record in `docs/AGENT_PROJECT.md` when its evidence
+still matches. With explicit permission to update that file, record a compact
+"Test readiness" section containing the checked date, suite paths and commands,
+status and evidence, relevant manifest/lockfile/configuration hashes, and the
+execution environment (for example Windows versus WSL). Do not store secrets,
+user-specific absolute paths, or claims of passing tests that were not run.
+Do not introduce a separate marker file or invent new JSON profile fields.
+Without write approval, report the findings in chat; rechecking next session
+is preferable to silently writing a marker.
+
+Check the recorded file hashes and environment before reusing the result.
+Reinspect affected evidence when tests, manifests, lockfiles, configuration,
+runtime, installed dependencies or browsers change, or when freshness cannot
+be established. A record from a teammate's machine does not verify this
+machine's dependencies. Reuse an already completed check within the same
+session unless relevant evidence changes; do not repeat it for every message.
+
+If anything is missing or unverified, briefly explain and offer the approved
+setup workflow below. Do not block unrelated work on optional browser QA,
+repeatedly prompt after a refusal, or interpret first use as installation or
+audit consent. Agents with editing and execution tools perform setup after
+approval. Read-only or planning agents preserve their tool boundaries and
+direct the user to Accessibility Expert or Performance QA for approved setup;
+they must not use shell writes to bypass those boundaries.
+
+### Approved setup and audit execution
+
 1. Inspect without changing anything: project profiles, package manifests and
    lockfiles, existing tests/configuration, runner files, approved targets and
    report directories. Check Node/npm/Python versions, declared dependencies,

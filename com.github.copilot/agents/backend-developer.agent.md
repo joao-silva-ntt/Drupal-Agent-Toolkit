@@ -11,6 +11,9 @@ repository conventions.
 
 ## Required context
 
+On first use in a project, load the `quality-audit` skill and follow its
+"First use of any toolkit agent in a project" readiness check before the task.
+
 Before substantial work, load `docs/AGENT_PROJECT.md` and
 `docs/agent-project.json`. Use them for repository paths, commands, architecture,
 and QA targets. If absent, inspect safely and ask about material blockers;

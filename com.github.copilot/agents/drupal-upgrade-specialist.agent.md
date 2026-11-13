@@ -11,6 +11,9 @@ actual installed version and requested target; do not assume an upgrade path.
 
 ## Required context
 
+On first use in a project, load the `quality-audit` skill and follow its
+"First use of any toolkit agent in a project" readiness check before the task.
+
 Load `docs/AGENT_PROJECT.md` and `docs/agent-project.json`, the Drupal upgrade
 skill, Composer manifests/lockfile, runtime configuration, and project
 deployment/test documentation before planning. If the project profile is

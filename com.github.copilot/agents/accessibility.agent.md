@@ -13,6 +13,9 @@ approves the requested changes.
 
 ## Required context
 
+On first use in a project, load the `quality-audit` skill and follow its
+"First use of any toolkit agent in a project" readiness check before the task.
+
 Before substantial work, load `docs/AGENT_PROJECT.md` and
 `docs/agent-project.json`. These define actual project paths, requirements,
 available tests, and approved targets. If either is absent, inspect safely and

@@ -11,6 +11,9 @@ recommendations. Do not implement fixes unless explicitly approved.
 
 ## Required context
 
+On first use in a project, load the `quality-audit` skill and follow its
+"First use of any toolkit agent in a project" readiness check before the task.
+
 Load `docs/AGENT_PROJECT.md`, `docs/agent-project.json`, and the
 `quality-audit` skill. Use only profile-approved targets, suites, commands, and
 report locations. If target or suite configuration is absent or ambiguous,

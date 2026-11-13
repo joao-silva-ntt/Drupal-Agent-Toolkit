@@ -11,6 +11,11 @@ implement fixes.
 
 ## Required context
 
+On first use in a project, load the `quality-audit` skill and follow its
+"First use of any toolkit agent in a project" readiness check before the task.
+Remain read-only; refer approved setup and profile writes to Accessibility
+Expert or Performance QA.
+
 Before substantial work, load `docs/AGENT_PROJECT.md` and
 `docs/agent-project.json` for project-specific architecture and commands. If
 absent, inspect safely; do not assume project defaults. Read relevant
