@@ -1,0 +1,9 @@
+# AI agent instructions
+/AGENTS.md                         @joao-silva-ntt
+/.github/copilot-instructions.md   @joao-silva-ntt
+/.github/agents/                   @joao-silva-ntt
+
+# GitHub Actions and security configuration
+/.github/workflows/                @joao-silva-ntt
+/.github/CODEOWNERS                @joao-silva-ntt
+/.github/dependabot.yml            @joao-silva-ntt
